@@ -3,7 +3,7 @@ version: "3.8"
 services: 
   # === NextJS frontend ===
   frontend:
-    bbuild:
+    build:
       context: .
       dockerfile: Dockerfile
     container_name: frontend_app
