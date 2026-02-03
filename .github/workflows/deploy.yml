@@ -20,34 +20,29 @@ jobs:
     BRANCH="${{ github.ref_name }}"
 
     COMMIT_URL="https://github.com/${{ github.repository }}/commit/$COMMIT_SHA"
-    REPO_URL="https://github.com/${{ github.repository }}"
     ACTION_RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
     SHORT_SHA="${COMMIT_SHA:0:7}"
 
     if [ "$DEPLOY_STATUS" = "success" ]; then
       STATUS_EMOJI="✅"
-      STATUS_TEXT="*SUCCESS*"
-      STATUS_DESC="Deployed successfully!"
+      STATUS_TEXT="SUCCESS"
     else
       STATUS_EMOJI="❌"
-      STATUS_TEXT="*FAILED*"
-      STATUS_DESC="Deployment failed!"
+      STATUS_TEXT="FAILED"
     fi
 
-    read -r -d '' MESSAGE <<EOF || true
-$STATUS_EMOJI *DEPLOY $STATUS_TEXT*
+    MESSAGE="$STATUS_EMOJI DEPLOY $STATUS_TEXT
 
-📦 *Repo:* $REPO_NAME
-🌿 *Branch:* $BRANCH
-🆔 *Commit:* $SHORT_SHA
-👤 *Author:* $COMMIT_AUTHOR
-📝 *Message:* $COMMIT_MESSAGE
+Repo: $REPO_NAME
+Branch: $BRANCH
+Commit: $SHORT_SHA
+Author: $COMMIT_AUTHOR
+Message: $COMMIT_MESSAGE
 
-🚀 Action: $ACTION_RUN_URL
-EOF
+Action: $ACTION_RUN_URL
+"
 
     curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
       -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
       -d text="$MESSAGE" \
-      -d parse_mode="Markdown" \
       -d disable_web_page_preview="true" || true
