@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    # - name: Checkout code
-    #   uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
     
     # - name: Deploy to VPS
     #   id: deploy
@@ -57,20 +57,6 @@ jobs:
         
         # Tạo message với format đẹp
         MESSAGE="$STATUS_EMOJI *DEPLOY $STATUS_TEXT* $STATUS_EMOJI
-
-📦 *Repository:* [$REPO_NAME]($REPO_URL)
-🌿 *Branch:* \`$BRANCH\`
-🆔 *Commit:* [$SHORT_SHA]($COMMIT_URL)
-👤 *Author:* $COMMIT_AUTHOR
-📝 *Message:* $COMMIT_MESSAGE
-
-🔗 *Links:*
-├─ 📄 [View Commit]($COMMIT_URL)
-├─ 🚀 [View Action Run]($ACTION_RUN_URL)
-└─ 🏠 [Repository]($REPO_URL)
-
-⏰ *Time:* $(date '+%Y-%m-%d %H:%M:%S')
-📊 *Status:* $STATUS_DESC"
 
         # Gửi thông báo đến Telegram
         curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
