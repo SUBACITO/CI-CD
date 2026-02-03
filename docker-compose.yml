@@ -1,0 +1,14 @@
+version: "3.8"
+
+services: 
+  # === NextJS frontend ===
+  frontend:
+    bbuild:
+      context: .
+      dockerfile: Dockerfile
+    container_name: frontend_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
